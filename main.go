@@ -1,31 +1,22 @@
 package main
 
 import (
-	"encoding/hex"
-	"fmt"
-	"net"
-
-	"github.com/rauschp/nexis-chain/crypto"
-	"github.com/rauschp/nexis-chain/node"
+	"github.com/rauschp/nexis-chain/server"
+	"github.com/rs/zerolog"
 )
 
 func main() {
-	privateKey := crypto.GenerateNewPrivateKey()
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 
-	fmt.Println(hex.EncodeToString(privateKey.Key))
-	fmt.Println(hex.EncodeToString(privateKey.Public().Key))
+	createServer(":3050")
+	createServer(":3060")
+
+	select {}
 }
 
-func createServerNode(addr string) (*node.ServerNode, error) {
-	listener, err := net.Listen("tcp", addr)
-	if err != nil {
-		return nil, err
-	}
+func createServer(addr string) {
+	n := server.NewNode()
 
-	node := &node.ServerNode{
-		HostAddress: addr,
-		Listener:    listener,
-	}
-
-	return node, nil
+	go n.StartNodeServer(addr)
 }

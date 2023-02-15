@@ -25,7 +25,7 @@ func TestBlockVerify_Success(t *testing.T) {
 	assert.True(t, pk.Public().Verify(hash, sig))
 }
 
-func TestBlockVerify_InvalidSigniature(t *testing.T) {
+func TestBlockVerify_InvalidSignature(t *testing.T) {
 	block := createBlock()
 	pk := crypto.GenerateNewPrivateKey()
 	hash := HashBlock(block)

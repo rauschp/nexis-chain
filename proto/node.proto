@@ -10,6 +10,9 @@ service NodeService {
 }
 
 message InitMessage {
-    int32 height = 1;
-    repeated string nodeHosts = 2;
+    string version = 1;
+    int32 height = 2;
+    string address = 3;
+    repeated string nodeHosts = 4;
+    bool success = 5;
 }
