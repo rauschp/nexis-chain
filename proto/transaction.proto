@@ -1,12 +1,6 @@
 syntax = "proto3";
 option go_package = "./pb";
 
-import "proto/shared.proto";
-
-service TransactionService {
-    rpc PostTransaction(Transaction) returns (AckResponse) {}
-}
-
 message Transaction {
     string version = 1;
     repeated TransactionInput inputs = 2;
@@ -16,6 +10,8 @@ message Transaction {
 message TransactionInput {
     bytes address = 1;
     int64 amount = 2;
+    bytes publicKey = 3;
+    bytes signature = 4;
 }
 
 message TransactionOutput {

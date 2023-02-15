@@ -20,39 +20,39 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type AckResponse struct {
+type EmptyAckResponse struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *AckResponse) Reset()         { *m = AckResponse{} }
-func (m *AckResponse) String() string { return proto.CompactTextString(m) }
-func (*AckResponse) ProtoMessage()    {}
-func (*AckResponse) Descriptor() ([]byte, []int) {
+func (m *EmptyAckResponse) Reset()         { *m = EmptyAckResponse{} }
+func (m *EmptyAckResponse) String() string { return proto.CompactTextString(m) }
+func (*EmptyAckResponse) ProtoMessage()    {}
+func (*EmptyAckResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_22793db1e643411d, []int{0}
 }
 
-func (m *AckResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_AckResponse.Unmarshal(m, b)
+func (m *EmptyAckResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EmptyAckResponse.Unmarshal(m, b)
 }
-func (m *AckResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_AckResponse.Marshal(b, m, deterministic)
+func (m *EmptyAckResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EmptyAckResponse.Marshal(b, m, deterministic)
 }
-func (m *AckResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AckResponse.Merge(m, src)
+func (m *EmptyAckResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EmptyAckResponse.Merge(m, src)
 }
-func (m *AckResponse) XXX_Size() int {
-	return xxx_messageInfo_AckResponse.Size(m)
+func (m *EmptyAckResponse) XXX_Size() int {
+	return xxx_messageInfo_EmptyAckResponse.Size(m)
 }
-func (m *AckResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_AckResponse.DiscardUnknown(m)
+func (m *EmptyAckResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_EmptyAckResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_AckResponse proto.InternalMessageInfo
+var xxx_messageInfo_EmptyAckResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*AckResponse)(nil), "AckResponse")
+	proto.RegisterType((*EmptyAckResponse)(nil), "EmptyAckResponse")
 }
 
 func init() {
@@ -60,10 +60,10 @@ func init() {
 }
 
 var fileDescriptor_22793db1e643411d = []byte{
-	// 69 bytes of a gzipped FileDescriptorProto
+	// 74 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2a, 0x28, 0xca, 0x2f,
-	0xc9, 0xd7, 0x2f, 0xce, 0x48, 0x2c, 0x4a, 0x4d, 0xd1, 0x03, 0x73, 0x94, 0x78, 0xb9, 0xb8, 0x1d,
-	0x93, 0xb3, 0x83, 0x52, 0x8b, 0x0b, 0xf2, 0xf3, 0x8a, 0x53, 0x9d, 0xd8, 0xa2, 0x58, 0xf4, 0xf4,
-	0x0b, 0x92, 0x92, 0xd8, 0xc0, 0xb2, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0xef, 0xe5, 0x61,
-	0x0f, 0x33, 0x00, 0x00, 0x00,
+	0xc9, 0xd7, 0x2f, 0xce, 0x48, 0x2c, 0x4a, 0x4d, 0xd1, 0x03, 0x73, 0x94, 0x84, 0xb8, 0x04, 0x5c,
+	0x73, 0x0b, 0x4a, 0x2a, 0x1d, 0x93, 0xb3, 0x83, 0x52, 0x8b, 0x0b, 0xf2, 0xf3, 0x8a, 0x53, 0x9d,
+	0xd8, 0xa2, 0x58, 0xf4, 0xf4, 0x0b, 0x92, 0x92, 0xd8, 0xc0, 0x4a, 0x8c, 0x01, 0x01, 0x00, 0x00,
+	0xff, 0xff, 0x1d, 0xaa, 0xa5, 0xd3, 0x38, 0x00, 0x00, 0x00,
 }

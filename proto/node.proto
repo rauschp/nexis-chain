@@ -1,0 +1,15 @@
+syntax = "proto3";
+option go_package = "./pb";
+
+import "proto/shared.proto";
+import "proto/transaction.proto";
+
+service NodeService {
+    rpc Initialize(InitMessage) returns (InitMessage) {}
+    rpc HandleTransaction(Transaction) returns (EmptyAckResponse) {}
+}
+
+message InitMessage {
+    int32 height = 1;
+    repeated string nodeHosts = 2;
+}
