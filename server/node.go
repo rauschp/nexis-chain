@@ -39,7 +39,10 @@ func NewNode(addr string, peerNodes []string) *Node {
 				continue
 			}
 
-			c := grpc.Dial(nodeHost, grpc.WithInsecure())
+			c, err := grpc.Dial(nodeHost, grpc.WithInsecure())
+			if err != nil {
+				log.Logger.Error().Err(err).Msg("Error dialing")
+			}
 			nodeClient := pb.NewNodeServiceClient(c)
 			res, err := nodeClient.Initialize(context.Background(), &pb.InitMessage{
 				Version: newNode.Version,
