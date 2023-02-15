@@ -60,7 +60,7 @@ func (n *Node) HandleTransaction(ctx context.Context, t *pb.Transaction) (*pb.Em
 	return &pb.EmptyAckResponse{}, nil
 }
 
-func (n *Node) Initialize(ctx context.Context, m *pb.InitMessage) *pb.InitMessage {
+func (n *Node) Initialize(ctx context.Context, m *pb.InitMessage) (*pb.InitMessage, error) {
 	_, ok := n.Peers[m.Address]
 	if !ok {
 		// Peer doesn't exist in map, add it :)
@@ -86,7 +86,7 @@ func (n *Node) Initialize(ctx context.Context, m *pb.InitMessage) *pb.InitMessag
 		Height:    0,
 		Address:   n.Host,
 		NodeHosts: hosts,
-	}
+	}, nil
 }
 
 func (n *Node) addPeer(node *PeerNode) {
