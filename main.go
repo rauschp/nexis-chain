@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"encoding/hex"
+	"fmt"
+
+	"github.com/rauschp/nexis-chain/crypto"
+)
 
 func main() {
-	fmt.Println("hi")
+	privateKey := crypto.GenerateNewPrivateKey()
+
+	fmt.Println(hex.EncodeToString(privateKey.Key))
+	fmt.Println(hex.EncodeToString(privateKey.Public().Key))
 }

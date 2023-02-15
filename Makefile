@@ -7,7 +7,7 @@ run: build
 	@./${NAME}
 
 test: 
-	@go test
+	@go test ./...
 
 clean: 
 	@go clean
