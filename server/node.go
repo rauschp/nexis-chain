@@ -34,20 +34,20 @@ func NewNode(addr string) *Node {
 	}
 }
 
-func (n *Node) StartNodeServer(addr string) {
-	log.Debug().Msgf("Starting server on %s", addr)
+func (n *Node) StartNodeServer() {
+	log.Debug().Msgf("Starting server on %s", n.Host)
 
 	grpcServer := grpc.NewServer()
-	lis, err := net.Listen("tcp", addr)
+	lis, err := net.Listen("tcp", n.Host)
 
-	log.Debug().Msgf("Listening on %s", addr)
+	log.Debug().Msgf("Listening on %s", n.Host)
 
 	if err != nil {
 		log.Error().Stack().Err(err).Msg("Unable to create server")
 	}
 
 	pb.RegisterNodeServiceServer(grpcServer, n)
-	log.Info().Msgf("Node started on host %s", addr)
+	log.Info().Msgf("Node started on host %s", n.Host)
 
 	grpcServer.Serve(lis)
 }
