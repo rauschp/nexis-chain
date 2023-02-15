@@ -18,86 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// TransactionClient is the client API for Transaction service.
+// TransactionServiceClient is the client API for TransactionService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TransactionClient interface {
-	PostTransaction(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*AckResponse, error)
+type TransactionServiceClient interface {
+	PostTransaction(ctx context.Context, in *Transaction, opts ...grpc.CallOption) (*AckResponse, error)
 }
 
-type transactionClient struct {
+type transactionServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTransactionClient(cc grpc.ClientConnInterface) TransactionClient {
-	return &transactionClient{cc}
+func NewTransactionServiceClient(cc grpc.ClientConnInterface) TransactionServiceClient {
+	return &transactionServiceClient{cc}
 }
 
-func (c *transactionClient) PostTransaction(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*AckResponse, error) {
+func (c *transactionServiceClient) PostTransaction(ctx context.Context, in *Transaction, opts ...grpc.CallOption) (*AckResponse, error) {
 	out := new(AckResponse)
-	err := c.cc.Invoke(ctx, "/Transaction/PostTransaction", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/TransactionService/PostTransaction", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TransactionServer is the server API for Transaction service.
-// All implementations must embed UnimplementedTransactionServer
+// TransactionServiceServer is the server API for TransactionService service.
+// All implementations must embed UnimplementedTransactionServiceServer
 // for forward compatibility
-type TransactionServer interface {
-	PostTransaction(context.Context, *TransactionRequest) (*AckResponse, error)
-	mustEmbedUnimplementedTransactionServer()
+type TransactionServiceServer interface {
+	PostTransaction(context.Context, *Transaction) (*AckResponse, error)
+	mustEmbedUnimplementedTransactionServiceServer()
 }
 
-// UnimplementedTransactionServer must be embedded to have forward compatible implementations.
-type UnimplementedTransactionServer struct {
+// UnimplementedTransactionServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTransactionServiceServer struct {
 }
 
-func (UnimplementedTransactionServer) PostTransaction(context.Context, *TransactionRequest) (*AckResponse, error) {
+func (UnimplementedTransactionServiceServer) PostTransaction(context.Context, *Transaction) (*AckResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostTransaction not implemented")
 }
-func (UnimplementedTransactionServer) mustEmbedUnimplementedTransactionServer() {}
+func (UnimplementedTransactionServiceServer) mustEmbedUnimplementedTransactionServiceServer() {}
 
-// UnsafeTransactionServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TransactionServer will
+// UnsafeTransactionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TransactionServiceServer will
 // result in compilation errors.
-type UnsafeTransactionServer interface {
-	mustEmbedUnimplementedTransactionServer()
+type UnsafeTransactionServiceServer interface {
+	mustEmbedUnimplementedTransactionServiceServer()
 }
 
-func RegisterTransactionServer(s grpc.ServiceRegistrar, srv TransactionServer) {
-	s.RegisterService(&Transaction_ServiceDesc, srv)
+func RegisterTransactionServiceServer(s grpc.ServiceRegistrar, srv TransactionServiceServer) {
+	s.RegisterService(&TransactionService_ServiceDesc, srv)
 }
 
-func _Transaction_PostTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransactionRequest)
+func _TransactionService_PostTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Transaction)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionServer).PostTransaction(ctx, in)
+		return srv.(TransactionServiceServer).PostTransaction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Transaction/PostTransaction",
+		FullMethod: "/TransactionService/PostTransaction",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServer).PostTransaction(ctx, req.(*TransactionRequest))
+		return srv.(TransactionServiceServer).PostTransaction(ctx, req.(*Transaction))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Transaction_ServiceDesc is the grpc.ServiceDesc for Transaction service.
+// TransactionService_ServiceDesc is the grpc.ServiceDesc for TransactionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Transaction_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Transaction",
-	HandlerType: (*TransactionServer)(nil),
+var TransactionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "TransactionService",
+	HandlerType: (*TransactionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "PostTransaction",
-			Handler:    _Transaction_PostTransaction_Handler,
+			Handler:    _TransactionService_PostTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

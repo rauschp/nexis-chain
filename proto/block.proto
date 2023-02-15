@@ -1,0 +1,19 @@
+
+syntax = "proto3";
+option go_package = "./pb";
+
+//import "proto/shared.proto";
+import "proto/transaction.proto";
+
+message Block {
+    Header header = 1;
+    repeated Transaction transactions = 2;
+}
+
+message Header {
+    int32 version = 1;
+    int32 height = 2;
+    bytes hash = 3;
+    bytes previousHash = 4;
+    int64 timestamp = 5;
+}

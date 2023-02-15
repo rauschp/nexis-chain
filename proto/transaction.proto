@@ -3,22 +3,22 @@ option go_package = "./pb";
 
 import "proto/shared.proto";
 
-service Transaction {
-    rpc PostTransaction(TransactionRequest) returns (AckResponse) {}
+service TransactionService {
+    rpc PostTransaction(Transaction) returns (AckResponse) {}
 }
 
-message TransactionRequest {
+message Transaction {
     string version = 1;
     repeated TransactionInput inputs = 2;
     repeated TransactionOutput outputs = 3;
 }
 
 message TransactionInput {
-    string address = 1;
+    bytes address = 1;
     int64 amount = 2;
 }
 
 message TransactionOutput {
-    string address = 1;
+    bytes address = 1;
     int64 amount = 2;
 }
