@@ -16,7 +16,7 @@ func main() {
 }
 
 func createServer(addr string) {
-	n := server.NewNode()
+	n := server.NewNode(addr)
 
-	go n.StartNodeServer(addr)
+	go n.StartNodeServer()
 }
