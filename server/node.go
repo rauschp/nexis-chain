@@ -26,12 +26,42 @@ type PeerNode struct {
 	Connection *grpc.ClientConn
 }
 
-func NewNode(addr string) *Node {
-	return &Node{
-		Version: "nexis-0.0.1",
+func NewNode(addr string, peerNodes []string) *Node {
+	newNode := &Node{
+		Version: "nexis7-0.0.1",
 		Host:    addr,
 		Peers:   make(map[string]*PeerNode),
 	}
+
+	if len(peerNodes) > 0 {
+		for _, nodeHost := range peerNodes {
+			if nodeHost == addr {
+				continue
+			}
+
+			c := grpc.Dial(nodeHost, grpc.WithInsecure())
+			nodeClient := pb.NewNodeServiceClient(c)
+			res, err := nodeClient.Initialize(context.Background(), &pb.InitMessage{
+				Version: newNode.Version,
+				Height:  0,
+				Address: addr,
+				Success: true,
+			})
+			if err != nil {
+				log.Error().Err(err).Msg("Unable to initalize node")
+			}
+
+			peerNode := &PeerNode{
+				Version:    res.Version,
+				Host:       res.Address,
+				Connection: c,
+			}
+
+			newNode.Peers[peerNode.Host] = peerNode
+		}
+	}
+
+	return newNode
 }
 
 func (n *Node) StartNodeServer() {
