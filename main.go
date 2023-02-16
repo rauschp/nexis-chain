@@ -11,6 +11,7 @@ func main() {
 
 	createServer(":3050", []string{})
 	createServer(":3060", []string{":3050"})
+	createServer(":3070", []string{":3060"})
 
 	select {}
 }

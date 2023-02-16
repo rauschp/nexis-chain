@@ -43,6 +43,7 @@ func NewNode(addr string, peerNodes []string) *Node {
 			if err != nil {
 				log.Logger.Error().Err(err).Msg("Error dialing")
 			}
+
 			nodeClient := pb.NewNodeServiceClient(c)
 			res, err := nodeClient.Initialize(context.Background(), &pb.InitMessage{
 				Version: newNode.Version,
@@ -60,6 +61,7 @@ func NewNode(addr string, peerNodes []string) *Node {
 				Connection: c,
 			}
 
+			log.Info().Msgf("Adding client (%s) to node %s", nodeHost, addr)
 			newNode.Peers[peerNode.Host] = peerNode
 		}
 	}
