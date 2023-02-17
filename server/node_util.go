@@ -63,13 +63,15 @@ func (pm *PeerManager) ContainsPeerByString(host string) bool {
 	return hasPeer
 }
 
-func (pm *PeerManager) AddPeer(p *PeerNode) {
+func (pm *PeerManager) AddPeer(p *PeerNode) bool {
 	if pm.ContainsPeer(p) {
-		return
+		return false
 	}
 
 	pm.Lock.Lock()
 	defer pm.Lock.Unlock()
 
 	pm.Peers[p.Host] = p
+
+	return true
 }
