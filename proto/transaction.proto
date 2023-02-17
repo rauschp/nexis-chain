@@ -3,8 +3,9 @@ option go_package = "./pb";
 
 message Transaction {
     string version = 1;
-    repeated TransactionInput inputs = 2;
-    repeated TransactionOutput outputs = 3;
+    bytes Hash = 2;
+    repeated TransactionInput inputs = 3;
+    repeated TransactionOutput outputs = 4;
 }
 
 message TransactionInput {
