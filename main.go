@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"math/rand"
 	"time"
 
 	pb "github.com/rauschp/nexis-chain/proto"
@@ -22,10 +24,7 @@ func main() {
 	n3 := createServer(":3070", []string{":3060"})
 	time.Sleep(3 * time.Second)
 
-	for {
-		sendTransaction(n3, ":3050")
-		time.Sleep(2 * time.Second)
-	}
+	sendTransaction(n3, ":3050")
 
 	// Stop program from exiting
 	select {}
@@ -58,8 +57,8 @@ func sendTransaction(node *server.Node, destAddr string) {
 		Amount:  10,
 	}
 
-	test, err := grpcClient.HandleTransaction(context.Background(), &pb.Transaction{
-		Version: "test",
+	_, err = grpcClient.HandleTransaction(context.Background(), &pb.Transaction{
+		Version: fmt.Sprintf("test-%d", rand.Intn(500000)),
 		Inputs:  []*pb.TransactionInput{transInput},
 		Outputs: []*pb.TransactionOutput{transOutput},
 	})
@@ -67,5 +66,4 @@ func sendTransaction(node *server.Node, destAddr string) {
 		log.Error().Err(err).Msg("Unable to send message")
 	}
 
-	log.Debug().Msgf("Pointer to ack %p", test)
 }
