@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/rauschp/nexis-chain/crypto"
 	"google.golang.org/grpc/credentials/insecure"
 	"math/rand"
 	"time"
@@ -32,7 +33,8 @@ func main() {
 }
 
 func createServer(addr string, nodes []string) *server.Node {
-	n := server.NewNode(addr, nodes)
+	privKey := crypto.GenerateNewPrivateKey()
+	n := server.NewNode(addr, nodes, privKey)
 
 	go n.StartNodeServer()
 

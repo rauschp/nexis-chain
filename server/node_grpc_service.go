@@ -12,7 +12,7 @@ func (n *Node) HandleTransaction(ctx context.Context, t *pb.Transaction) (*pb.Em
 	p, _ := peer.FromContext(ctx)
 
 	if n.Mempool.AddTransaction(t) {
-		log.Debug().Msgf("Transaction added to mempool on %s from %s", n.Host, p.Addr)
+		log.Debug().Msgf("Transaction added to mempool on %s from %s", n.NodeConfig.Host, p.Addr)
 		// Broadcasting to peer nodes
 		go func() {
 			if err := n.BroadcastEvent(t); err != nil {
@@ -35,7 +35,7 @@ func (n *Node) Initialize(ctx context.Context, m *pb.InitMessage) (*pb.InitMessa
 
 		n.addPeer(p)
 
-		log.Debug().Msgf("Adding peer (%s) to %s", p.Host, n.Host)
+		log.Debug().Msgf("Adding peer (%s) to %s", p.Host, n.NodeConfig.Host)
 	}
 
 	n.PeerManager.Lock.Lock()
@@ -49,7 +49,7 @@ func (n *Node) Initialize(ctx context.Context, m *pb.InitMessage) (*pb.InitMessa
 	return &pb.InitMessage{
 		Version:   n.Version,
 		Height:    0,
-		Address:   n.Host,
+		Address:   n.NodeConfig.Host,
 		NodeHosts: hosts,
 	}, nil
 }

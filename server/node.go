@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"github.com/rauschp/nexis-chain/crypto"
 	"google.golang.org/grpc/credentials/insecure"
 	"net"
 	"sync"
@@ -21,25 +22,33 @@ type Mempool struct {
 	Lock sync.RWMutex
 }
 
-type Node struct {
-	Version     string
-	PeerManager *PeerManager
-	Mempool     *Mempool
-	Host        string
-
-	pb.UnimplementedNodeServiceServer
-}
-
 type PeerNode struct {
 	Version    string
 	Host       string
 	Connection *grpc.ClientConn
 }
 
-func NewNode(addr string, peerNodes []string) *Node {
+type NodeConfig struct {
+	Host       string
+	PrivateKey *crypto.PrivateKey
+}
+
+type Node struct {
+	Version     string
+	PeerManager *PeerManager
+	Mempool     *Mempool
+	NodeConfig  NodeConfig
+
+	pb.UnimplementedNodeServiceServer
+}
+
+func NewNode(addr string, peerNodes []string, privateKey *crypto.PrivateKey) *Node {
 	newNode := &Node{
-		Version:     "nexis7-0.0.1",
-		Host:        addr,
+		Version: "nexis7-0.0.1",
+		NodeConfig: NodeConfig{
+			Host:       addr,
+			PrivateKey: privateKey,
+		},
 		PeerManager: CreatePeerManager(),
 		Mempool:     CreateMempool(),
 	}
@@ -81,19 +90,19 @@ func NewNode(addr string, peerNodes []string) *Node {
 }
 
 func (n *Node) StartNodeServer() {
-	log.Debug().Msgf("Starting server on %s", n.Host)
+	log.Debug().Msgf("Starting server on %s", n.NodeConfig.Host)
 
 	grpcServer := grpc.NewServer()
-	lis, err := net.Listen("tcp", n.Host)
+	lis, err := net.Listen("tcp", n.NodeConfig.Host)
 
-	log.Debug().Msgf("Listening on %s", n.Host)
+	log.Debug().Msgf("Listening on %s", n.NodeConfig.Host)
 
 	if err != nil {
 		log.Error().Stack().Err(err).Msg("Unable to create server")
 	}
 
 	pb.RegisterNodeServiceServer(grpcServer, n)
-	log.Info().Msgf("Node started on host %s", n.Host)
+	log.Info().Msgf("Node started on host %s", n.NodeConfig.Host)
 
 	grpcServer.Serve(lis)
 }
