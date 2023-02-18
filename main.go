@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"google.golang.org/grpc/credentials/insecure"
 	"math/rand"
 	"time"
 
@@ -39,7 +40,7 @@ func createServer(addr string, nodes []string) *server.Node {
 }
 
 func sendTransaction(node *server.Node, destAddr string) {
-	c, err := grpc.Dial(destAddr, grpc.WithInsecure())
+	c, err := grpc.Dial(destAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Error().Err(err).Msg("Error dialing")
 	}
@@ -52,6 +53,7 @@ func sendTransaction(node *server.Node, destAddr string) {
 		PublicKey: make([]byte, 32),
 		Signature: make([]byte, 32),
 	}
+
 	transOutput := &pb.TransactionOutput{
 		Address: make([]byte, 32),
 		Amount:  10,

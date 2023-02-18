@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"google.golang.org/grpc/credentials/insecure"
 	"net"
 	"sync"
 
@@ -49,7 +50,7 @@ func NewNode(addr string, peerNodes []string) *Node {
 				continue
 			}
 
-			c, err := grpc.Dial(nodeHost, grpc.WithInsecure())
+			c, err := grpc.Dial(nodeHost, grpc.WithTransportCredentials(insecure.NewCredentials()))
 			if err != nil {
 				log.Logger.Error().Err(err).Msg("Error dialing")
 			}
@@ -98,7 +99,7 @@ func (n *Node) StartNodeServer() {
 }
 
 func (n *Node) addPeer(node *PeerNode) {
-	client, err := grpc.Dial(node.Host, grpc.WithInsecure())
+	client, err := grpc.Dial(node.Host, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Error().Err(err).Msg("Error dialing peer")
 	}
