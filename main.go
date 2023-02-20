@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/rauschp/nexis-chain/crypto"
+	"github.com/rauschp/nexis-chain/types"
 	"google.golang.org/grpc/credentials/insecure"
 	"math/rand"
 	"time"
@@ -15,9 +16,18 @@ import (
 	"google.golang.org/grpc"
 )
 
+type App struct {
+	Blockstore *types.BlockStore
+	Node       *server.Node
+	PrivateKey *crypto.PrivateKey
+}
+
 func main() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
+
+	//var bs *types.BlockStore
+	//bs = types.CreateMemoryBlockstore()
 
 	createServer(":3050", []string{})
 	time.Sleep(2 * time.Second)
@@ -26,6 +36,11 @@ func main() {
 	n3 := createServer(":3070", []string{":3060"})
 	time.Sleep(3 * time.Second)
 
+	sendTransaction(n3, ":3050")
+	sendTransaction(n3, ":3050")
+	sendTransaction(n3, ":3050")
+	sendTransaction(n3, ":3050")
+	sendTransaction(n3, ":3050")
 	sendTransaction(n3, ":3050")
 
 	// Stop program from exiting
