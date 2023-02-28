@@ -6,16 +6,21 @@ import (
 	"github.com/rauschp/nexis-chain/crypto"
 	pb "github.com/rauschp/nexis-chain/proto"
 	"github.com/rauschp/nexis-chain/server"
-	"github.com/rauschp/nexis-chain/types"
+	"github.com/rauschp/nexis-chain/storage"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"math/rand"
 )
 
+type Blockchain struct {
+	BlockStore  storage.BlockStore
+	WalletStore storage.WalletStore
+}
+
 type App struct {
 	Node       *server.Node
-	Blockchain *types.Blockchain
+	Blockchain *Blockchain
 	PrivateKey *crypto.PrivateKey
 }
 

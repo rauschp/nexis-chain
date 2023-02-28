@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/rauschp/nexis-chain/storage"
-	"github.com/rauschp/nexis-chain/types"
 	"github.com/rs/zerolog"
 	"time"
 )
@@ -12,7 +11,7 @@ func main() {
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 
 	app := &App{
-		Blockchain: &types.Blockchain{
+		Blockchain: &Blockchain{
 			BlockStore:  storage.CreatePersistentBlockstore(),
 			WalletStore: storage.CreatePersistentWalletstore(),
 		},
