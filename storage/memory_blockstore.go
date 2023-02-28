@@ -1,9 +1,10 @@
-package types
+package storage
 
 import (
 	"encoding/hex"
 	"errors"
 	pb "github.com/rauschp/nexis-chain/proto"
+	"github.com/rauschp/nexis-chain/types"
 	"sync"
 )
 
@@ -12,13 +13,12 @@ type MemoryBlockstore struct {
 	Lock   sync.RWMutex
 }
 
-func CreateMemoryBlockstore() *BlockStore {
+func CreateMemoryBlockstore() *MemoryBlockstore {
 	bs := &MemoryBlockstore{
 		Blocks: make(map[string]*pb.Block),
 	}
 
-	var b BlockStore = bs
-	return &b
+	return bs
 }
 
 func (m *MemoryBlockstore) Height() int {
@@ -45,7 +45,7 @@ func (m *MemoryBlockstore) Set(block *pb.Block) error {
 	m.Lock.Lock()
 	defer m.Lock.Unlock()
 
-	hash := HashBlock(block)
+	hash := types.HashBlock(block)
 	m.Blocks[hex.EncodeToString(hash)] = block
 
 	return nil

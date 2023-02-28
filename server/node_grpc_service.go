@@ -12,7 +12,7 @@ func (n *Node) HandleTransaction(ctx context.Context, t *pb.Transaction) (*pb.Em
 	p, _ := peer.FromContext(ctx)
 
 	if n.Mempool.AddTransaction(t) {
-		log.Debug().Msgf("Transaction added to mempool on %s from %s", n.NodeConfig.Host, p.Addr)
+		log.Debug().Msgf("Transaction (%s) added to mempool on %s from %s", t.Version, n.NodeConfig.Host, p.Addr)
 		// Broadcasting to peer nodes
 		go func() {
 			if err := n.BroadcastEvent(t); err != nil {
